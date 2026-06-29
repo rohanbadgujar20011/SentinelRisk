@@ -3,7 +3,7 @@
 > Project: SentinelRisk  
 > Version: 1.0  
 > Status: Draft  
-> Document Owner: Backend Engineering Team  
+> Document Owner: Rohan Badgujar 
 > Last Updated: June 2026
 
 ---
