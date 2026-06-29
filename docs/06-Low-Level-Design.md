@@ -48,30 +48,29 @@ src/main/java/com/sentinelrisk
 ```mermaid
 flowchart TD
 
-Client
+Client["Payment Gateway"]
 
-↓
+Controller["Risk Controller"]
 
-Controller
+Service["Risk Evaluation Service"]
 
-↓
+RuleEngine["Rule Engine"]
 
-Service
+Repository["Risk Evaluation Repository"]
 
-↓
+Postgres["PostgreSQL"]
 
-Domain
+Redis["Redis Cache"]
 
-↓
+Kafka["Apache Kafka"]
 
-Repository
-
-↓
-
-PostgreSQL
+Client --> Controller
+Controller --> Service
+Service --> RuleEngine
+RuleEngine --> Repository
+Repository --> Postgres
 
 Service --> Redis
-
 Service --> Kafka
 ```
 
@@ -197,23 +196,29 @@ Responsibilities:
 ```mermaid
 sequenceDiagram
 
+participant Client
+participant Controller
+participant Service as RiskEvaluationService
+participant Redis
+participant RuleEngine
+participant FraudRules
+participant Repository
+participant KafkaPublisher
+
 Client->>Controller: POST /risk/evaluate
-
-Controller->>RiskEvaluationService
-
-RiskEvaluationService->>Redis
-
-RiskEvaluationService->>RuleEngine
-
-RuleEngine->>FraudRule(s)
-
-RiskEvaluationService->>Repository
-
-RiskEvaluationService->>KafkaPublisher
-
-RiskEvaluationService-->>Controller
-
-Controller-->>Client
+Controller->>Service: Evaluate Request
+Service->>Redis: Check Velocity
+Redis-->>Service: Velocity Result
+Service->>RuleEngine: Execute Rules
+RuleEngine->>FraudRules: Evaluate Rules
+FraudRules-->>RuleEngine: Rule Results
+RuleEngine-->>Service: Risk Score
+Service->>Repository: Save Evaluation
+Repository-->>Service: Saved Successfully
+Service->>KafkaPublisher: Publish Risk Event
+KafkaPublisher-->>Service: Event Published
+Service-->>Controller: Risk Response
+Controller-->>Client: HTTP 200 OK
 ```
 
 ---

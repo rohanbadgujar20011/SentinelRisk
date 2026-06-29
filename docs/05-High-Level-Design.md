@@ -174,37 +174,23 @@ Each rule contributes to a cumulative risk score.
 ```mermaid
 flowchart TD
 
-PaymentRequest
+A["Payment Request"]
+B["Authentication"]
+C["Request Validation"]
+D["Rule Engine"]
+E["Risk Score Calculation"]
+F["Persist Evaluation"]
+G["Publish Kafka Event"]
+H["Return Response"]
 
-↓
-
-Authentication
-
-↓
-
-Validation
-
-↓
-
-Rule Engine
-
-↓
-
-Risk Score
-
-↓
-
-Persist Evaluation
-
-↓
-
-Publish Kafka Event
-
-↓
-
-Return Response
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
 ```
-
 ---
 
 # 9. Security Design
