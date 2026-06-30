@@ -1,4 +1,4 @@
-package com.sentinelrisk.auth.domain;
+package com.sentinelrisk.auth.enums;
 
 
 public enum UserStatus {
