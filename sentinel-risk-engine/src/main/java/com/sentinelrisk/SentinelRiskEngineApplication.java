@@ -1,15 +1,13 @@
-package com.sentinelrisk.sentinel_risk_engine;
+package com.sentinelrisk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import java.time.ZoneId;
-import java.util.TimeZone;
 
 @SpringBootApplication
 public class SentinelRiskEngineApplication {
 
 	public static void main(String[] args) {
-		
+
 		SpringApplication.run(SentinelRiskEngineApplication.class, args);
 	}
 
